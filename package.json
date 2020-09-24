@@ -1,0 +1,33 @@
+{
+  "name": "discord-music-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "ts-node src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j-choi98/Discord-Music-Bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/j-choi98/Discord-Music-Bot/issues"
+  },
+  "homepage": "https://github.com/j-choi98/Discord-Music-Bot#readme",
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0",
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^5.0.0",
+    "typeorm": "^0.2.26",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^14.11.2",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}
