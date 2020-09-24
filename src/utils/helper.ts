@@ -8,3 +8,34 @@ export const requireUserInVoice = (message: Message) => {
     return false;
   }
 };
+
+export const numArguments = (message: string) => {
+  return message.trim().split(' ').length - 1;
+};
+
+export const sendErrorMessage = (message: Message, description: string) => {
+  message.channel.send({
+    embed: {
+      title: ':regional_indicator_x: Status: Error',
+      description
+    }
+  });
+};
+
+export const sendSuccessMessage = (message: Message, description: string) => {
+  message.channel.send({
+    embed: {
+      title: ':white_check_mark: Status: Success',
+      description
+    }
+  });
+};
+
+export const sendInfoMessage = (message: Message, description: string) => {
+  message.channel.send({
+    embed: {
+      title: ':information_source: Status: Info',
+      description
+    }
+  });
+};
