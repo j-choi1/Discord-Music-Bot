@@ -2,4 +2,4 @@
 
 WORK IN PROGRESS.
 
-TypeScript, SQLite, Discord.js
+TypeScript, SQLite, TypeORM, Discord.js
