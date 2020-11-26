@@ -1,29 +1,30 @@
 import { Message } from 'discord.js';
 import ytdl from 'ytdl-core';
 import {
+  getCommand,
   numArguments,
   sendErrorMessage,
   sendSuccessMessage
-} from '../utils/helper';
+} from '../utils/common';
 import { Queue } from '../entities/queue';
 import { connection } from '../connections/database';
 
 const add = async (message: Message) => {
-  if (numArguments(message.content) !== 1) {
-    return sendErrorMessage(
+  if (numArguments(message) !== 1) {
+    sendErrorMessage(
       message,
       `Invalid command syntax.\n\n**Correct Syntax:**\n${process.env
-        .PREFIX!}add <Youtube URL>`
+        .PREFIX!}${getCommand(message)} <Youtube URL>`
     );
+
+    return false;
   }
 
   const youtubeURL = message.content.trim().split(' ')[1];
 
   if (!ytdl.validateURL(youtubeURL)) {
-    return sendErrorMessage(
-      message,
-      'You have entered an invalid Youtube link.'
-    );
+    sendErrorMessage(message, 'You have entered an invalid Youtube link.');
+    return false;
   }
 
   const youtubeInfo = await ytdl.getInfo(youtubeURL);
@@ -37,6 +38,8 @@ const add = async (message: Message) => {
     message,
     `**${youtubeInfo.videoDetails.title}** has been added to the queue.`
   );
+
+  return true;
 };
 
 export default add;

@@ -1,7 +1,13 @@
+import { StreamDispatcher } from 'discord.js';
 import { createConnection, Connection } from 'typeorm';
 import { Guild } from '../entities/guild';
 import { Queue } from '../entities/queue';
 
+interface iDispatchers {
+  [key: string]: StreamDispatcher;
+}
+
+const dispatchers: iDispatchers = {};
 let connection!: Connection;
 
 (async () => {
@@ -16,4 +22,4 @@ let connection!: Connection;
   }
 })();
 
-export { connection };
+export { dispatchers, connection };

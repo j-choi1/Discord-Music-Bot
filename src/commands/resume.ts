@@ -2,11 +2,11 @@ import { Message } from 'discord.js';
 import { dispatchers } from '../connections/database';
 import {
   isInSameVoiceAsMember,
-  sendErrorMessage,
-  isBotInVoice
+  isBotInVoice,
+  sendErrorMessage
 } from '../utils/common';
 
-const stop = (message: Message) => {
+const resume = (message: Message) => {
   if (!isBotInVoice(message)) {
     return false;
   }
@@ -16,11 +16,14 @@ const stop = (message: Message) => {
     return false;
   }
 
-  delete dispatchers[message.guild!.id];
+  const dispatcher = dispatchers[message.guild!.id];
 
-  message.member!.voice.channel?.leave();
+  if (dispatcher) {
+    dispatchers[message.guild!.id].resume();
+    console.log('resuming');
+  }
 
   return true;
 };
 
-export default stop;
+export default resume;

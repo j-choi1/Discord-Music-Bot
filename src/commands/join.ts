@@ -1,16 +1,23 @@
 import { Message } from 'discord.js';
-import { requireUserInVoice } from '../utils/helper';
+import { isMemberInVoice, sendErrorMessage } from '../utils/common';
 
 const join = async (message: Message) => {
-  if (requireUserInVoice(message)) {
-    if (!message.member!.voice.channel?.joinable) {
-      return message.reply(
-        'I do not have permission to join the voice channel.'
-      );
-    }
-
-    message.member!.voice.channel.join();
+  if (!isMemberInVoice(message)) {
+    sendErrorMessage(message, 'You must be in a voice channel.');
+    return false;
   }
+
+  if (!message.member!.voice.channel?.joinable) {
+    sendErrorMessage(
+      message,
+      'I do not have permission to join the voice channel.'
+    );
+    return false;
+  }
+
+  await message.member!.voice.channel.join();
+
+  return true;
 };
 
 export default join;
