@@ -2,12 +2,12 @@ import { Message } from 'discord.js';
 import { dispatchers } from '../connections/database';
 import {
   isInSameVoiceAsMember,
-  isBotInVoice,
-  sendErrorMessage
+  sendErrorMessage,
+  isBotPlaying
 } from '../utils/common';
 
 const pause = (message: Message) => {
-  if (!isBotInVoice(message)) {
+  if (!isBotPlaying(message)) {
     return false;
   }
 

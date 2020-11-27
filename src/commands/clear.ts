@@ -6,7 +6,7 @@ import { sendSuccessMessage } from '../utils/common';
 const clear = async (message: Message) => {
   await connection.manager.delete(Queue, { guild: message.guild });
 
-  sendSuccessMessage(message, 'Queue has been cleared');
+  sendSuccessMessage(message, 'Queue has been cleared.');
 
   return true;
 };

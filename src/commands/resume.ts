@@ -2,12 +2,12 @@ import { Message } from 'discord.js';
 import { dispatchers } from '../connections/database';
 import {
   isInSameVoiceAsMember,
-  isBotInVoice,
-  sendErrorMessage
+  sendErrorMessage,
+  isBotPlaying
 } from '../utils/common';
 
 const resume = (message: Message) => {
-  if (!isBotInVoice(message)) {
+  if (!isBotPlaying(message)) {
     return false;
   }
 
@@ -20,7 +20,6 @@ const resume = (message: Message) => {
 
   if (dispatcher) {
     dispatchers[message.guild!.id].resume();
-    console.log('resuming');
   }
 
   return true;

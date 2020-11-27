@@ -13,6 +13,8 @@ import stop from './commands/stop';
 import pause from './commands/pause';
 import resume from './commands/resume';
 import clear from './commands/clear';
+import shuffle from './commands/shuffle';
+import queue from './commands/queue';
 
 client.on('message', (message: Message) => {
   if (message.content.startsWith(process.env.PREFIX!)) {
@@ -38,6 +40,14 @@ client.on('message', (message: Message) => {
         break;
       case 'clear':
         clear(message);
+        break;
+      case 'shuffle':
+        shuffle(message);
+        break;
+      case 'queue':
+      case 'songs':
+      case 'list':
+        queue(message);
         break;
     }
   }

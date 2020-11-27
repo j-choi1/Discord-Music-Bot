@@ -7,7 +7,7 @@ const join = async (message: Message) => {
     return false;
   }
 
-  if (!message.member!.voice.channel?.joinable) {
+  if (!message.member!.voice.channel!.joinable) {
     sendErrorMessage(
       message,
       'I do not have permission to join the voice channel.'
@@ -15,7 +15,7 @@ const join = async (message: Message) => {
     return false;
   }
 
-  await message.member!.voice.channel.join();
+  await message.member!.voice.channel!.join();
 
   return true;
 };

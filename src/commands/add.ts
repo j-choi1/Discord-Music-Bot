@@ -2,12 +2,14 @@ import { Message } from 'discord.js';
 import ytdl from 'ytdl-core';
 import {
   getCommand,
+  isBotInVoice,
+  isInSameVoiceAsMember,
   numArguments,
   sendErrorMessage,
   sendSuccessMessage
 } from '../utils/common';
-import { Queue } from '../entities/queue';
 import { connection } from '../connections/database';
+import { QueueRepository } from '../repositories/queue';
 
 const add = async (message: Message) => {
   if (numArguments(message) !== 1) {
@@ -20,6 +22,16 @@ const add = async (message: Message) => {
     return false;
   }
 
+  if (isBotInVoice(message)) {
+    if (!isInSameVoiceAsMember(message)) {
+      sendErrorMessage(
+        message,
+        'You must be in the same voice channel as the bot.'
+      );
+      return false;
+    }
+  }
+
   const youtubeURL = message.content.trim().split(' ')[1];
 
   if (!ytdl.validateURL(youtubeURL)) {
@@ -29,10 +41,14 @@ const add = async (message: Message) => {
 
   const youtubeInfo = await ytdl.getInfo(youtubeURL);
 
-  await connection.manager.insert(Queue, {
-    guild: message.guild!,
-    youtubeId: youtubeInfo.videoDetails.videoId
-  });
+  await connection
+    .getCustomRepository(QueueRepository)
+    .add(
+      message.guild!,
+      youtubeInfo.videoDetails.videoId,
+      youtubeInfo.videoDetails.title,
+      youtubeInfo.videoDetails.lengthSeconds
+    );
 
   sendSuccessMessage(
     message,

@@ -7,16 +7,22 @@ import {
 } from '../utils/common';
 
 const stop = (message: Message) => {
-  if (!isBotInVoice(message)) {
+  if (isBotInVoice(message)) {
     return false;
   }
 
+  console.log('aa');
   if (!isInSameVoiceAsMember(message)) {
     sendErrorMessage(message, 'You must be in the same channel as the bot.');
     return false;
   }
 
-  delete dispatchers[message.guild!.id];
+  const dispatcher = dispatchers[message.guild!.id];
+
+  if (dispatcher) {
+    dispatcher.destroy();
+    delete dispatchers[message.guild!.id];
+  }
 
   message.member!.voice.channel?.leave();
 
