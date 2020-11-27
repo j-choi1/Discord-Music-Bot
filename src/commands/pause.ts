@@ -19,7 +19,7 @@ const pause = (message: Message) => {
   const dispatcher = dispatchers[message.guild!.id];
 
   if (dispatcher) {
-    dispatchers[message.guild!.id].pause();
+    dispatcher.pause();
   }
 
   return true;

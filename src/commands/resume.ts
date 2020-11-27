@@ -19,7 +19,7 @@ const resume = (message: Message) => {
   const dispatcher = dispatchers[message.guild!.id];
 
   if (dispatcher) {
-    dispatchers[message.guild!.id].resume();
+    dispatcher.resume();
   }
 
   return true;
