@@ -15,6 +15,7 @@ import resume from './commands/resume';
 import clear from './commands/clear';
 import shuffle from './commands/shuffle';
 import queue from './commands/queue';
+import skip from './commands/skip';
 
 client.on('message', (message: Message) => {
   if (message.content.startsWith(process.env.PREFIX!)) {
@@ -48,6 +49,9 @@ client.on('message', (message: Message) => {
       case 'songs':
       case 'list':
         queue(message);
+        break;
+      case 'skip':
+        skip(message);
         break;
     }
   }

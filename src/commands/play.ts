@@ -1,5 +1,4 @@
 import { Message } from 'discord.js';
-import ytdl from 'ytdl-core';
 
 import {
   isBotPlaying,
@@ -12,36 +11,7 @@ import { Queue } from '../entities/queue';
 
 import add from './add';
 import join from './join';
-
-const playNext = async (message: Message) => {
-  const queue = await connection.manager.findOne(Queue, {
-    where: { guild: message.guild }
-  });
-
-  if (!queue) {
-    sendInfoMessage(
-      message,
-      'There are no more songs in the queue. Disconnecting from voice channel.',
-      false
-    );
-
-    delete dispatchers[message.guild!.id];
-    message.member!.voice.channel?.leave();
-
-    return false;
-  }
-
-  await connection.manager.delete(Queue, queue);
-
-  const dispatcher = message.guild!.voice!.connection!.play(
-    ytdl(queue!.youtubeId, {
-      filter: 'audioonly'
-    })
-  );
-
-  dispatcher.on('finish', () => playNext(message));
-  dispatchers[message.guild!.id] = dispatcher;
-};
+import skip from './skip';
 
 const play = async (message: Message) => {
   if (numArguments(message) === 0) {
@@ -69,7 +39,7 @@ const play = async (message: Message) => {
       return false;
     }
 
-    await playNext(message);
+    await skip(message);
   }
 
   return true;
