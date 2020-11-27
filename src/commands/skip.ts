@@ -1,4 +1,5 @@
 import { Message } from 'discord.js';
+import { guilds } from '../connections/database';
 import {
   isInSameVoiceAsMember,
   sendErrorMessage,
@@ -18,7 +19,13 @@ const skip = async (message: Message) => {
     );
   }
 
-  await playNext(message);
+  if (guilds[message.guild!.id].loop) {
+    guilds[message.guild!.id].loop = false;
+    await playNext(message);
+    guilds[message.guild!.id].loop = true;
+  } else {
+    await playNext(message);
+  }
 };
 
 export default skip;

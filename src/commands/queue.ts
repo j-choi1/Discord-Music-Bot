@@ -18,8 +18,7 @@ const queue = async (message: Message) => {
     const queue = queues[i];
     const duration = parseInt(queue.duration);
 
-    const time =
-      Math.floor(duration / 60) + ':' + (duration % 60 ? duration % 60 : '00');
+    const time = new Date(duration * 1000).toISOString().substr(11, 8);
 
     result += `${i + 1}. **${queue.title}** (${time})\n\n`;
   }

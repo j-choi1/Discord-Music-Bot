@@ -77,6 +77,12 @@ export const isBotPlaying = (message: Message) => {
   );
 };
 
+export const loadGuildIfNotExists = (message: Message) => {
+  if (!guilds.hasOwnProperty(message.guild!.id)) {
+    guilds[message.guild!.id] = {};
+  }
+};
+
 export const endBroadcast = (message: Message) => {
   const dispatcher = guilds[message.guild!.id].dispatcher;
 

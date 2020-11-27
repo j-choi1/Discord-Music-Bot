@@ -4,7 +4,7 @@ dotenv.config();
 import 'reflect-metadata';
 import client from './connections/discord';
 import { Message } from 'discord.js';
-import { getCommand } from './utils/common';
+import { getCommand, loadGuildIfNotExists } from './utils/common';
 
 import play from './commands/play';
 import add from './commands/add';
@@ -17,49 +17,55 @@ import shuffle from './commands/shuffle';
 import queue from './commands/queue';
 import skip from './commands/skip';
 import current from './commands/current';
+import loop from './commands/loop';
 
-client.on('message', (message: Message) => {
+client.on('message', async (message: Message) => {
   if (message.content.startsWith(process.env.PREFIX!)) {
+    loadGuildIfNotExists(message);
+
     switch (getCommand(message)) {
       case 'play':
-        play(message);
+        await play(message);
         break;
       case 'join':
-        join(message);
+        await join(message);
         break;
       case 'stop':
       case 'leave':
-        stop(message);
+        await stop(message);
         break;
       case 'add':
-        add(message);
+        await add(message);
         break;
       case 'pause':
-        pause(message);
+        await pause(message);
         break;
       case 'resume':
-        resume(message);
+        await resume(message);
         break;
       case 'clear':
-        clear(message);
+        await clear(message);
         break;
       case 'shuffle':
-        shuffle(message);
+        await shuffle(message);
         break;
       case 'queue':
       case 'songs':
       case 'list':
-        queue(message);
+        await queue(message);
         break;
       case 'skip':
       case 'next':
-        skip(message);
+        await skip(message);
         break;
       case 'current':
       case 'nowplaying':
       case 'song':
       case 'np':
-        current(message);
+        await current(message);
+        break;
+      case 'loop':
+        await loop(message);
         break;
     }
   }

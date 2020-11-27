@@ -14,7 +14,7 @@ const current = async (message: Message) => {
     );
   }
 
-  sendInfoMessage(message, guilds[message.guild!.id].current!);
+  sendInfoMessage(message, `**${guilds[message.guild!.id].current!.title!}**`);
 };
 
 export default current;

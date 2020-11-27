@@ -7,7 +7,7 @@ interface iGuilds {
   [key: string]: {
     loop?: boolean;
     dispatcher?: StreamDispatcher;
-    current?: string;
+    current?: Queue;
   };
 }
 
