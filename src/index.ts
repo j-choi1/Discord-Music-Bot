@@ -16,6 +16,7 @@ import clear from './commands/clear';
 import shuffle from './commands/shuffle';
 import queue from './commands/queue';
 import skip from './commands/skip';
+import current from './commands/current';
 
 client.on('message', (message: Message) => {
   if (message.content.startsWith(process.env.PREFIX!)) {
@@ -51,7 +52,14 @@ client.on('message', (message: Message) => {
         queue(message);
         break;
       case 'skip':
+      case 'next':
         skip(message);
+        break;
+      case 'current':
+      case 'nowplaying':
+      case 'song':
+      case 'np':
+        current(message);
         break;
     }
   }

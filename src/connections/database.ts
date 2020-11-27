@@ -3,11 +3,15 @@ import { createConnection, Connection } from 'typeorm';
 import { Guild } from '../entities/guild';
 import { Queue } from '../entities/queue';
 
-interface iDispatchers {
-  [key: string]: StreamDispatcher;
+interface iGuilds {
+  [key: string]: {
+    loop?: boolean;
+    dispatcher?: StreamDispatcher;
+    current?: string;
+  };
 }
 
-const dispatchers: iDispatchers = {};
+const guilds: iGuilds = {};
 let connection!: Connection;
 
 (async () => {
@@ -22,4 +26,4 @@ let connection!: Connection;
   }
 })();
 
-export { dispatchers, connection };
+export { guilds, connection };

@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { dispatchers } from '../connections/database';
+import { guilds } from '../connections/database';
 import {
   isInSameVoiceAsMember,
   sendErrorMessage,
@@ -8,21 +8,21 @@ import {
 
 const resume = (message: Message) => {
   if (!isBotPlaying(message)) {
-    return false;
+    return;
   }
 
   if (!isInSameVoiceAsMember(message)) {
-    sendErrorMessage(message, 'You must be in the same channel as the bot.');
-    return false;
+    return sendErrorMessage(
+      message,
+      'You must be in the same channel as the bot.'
+    );
   }
 
-  const dispatcher = dispatchers[message.guild!.id];
+  const dispatcher = guilds[message.guild!.id].dispatcher;
 
   if (dispatcher) {
     dispatcher.resume();
   }
-
-  return true;
 };
 
 export default resume;

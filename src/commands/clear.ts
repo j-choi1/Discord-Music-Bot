@@ -7,8 +7,6 @@ const clear = async (message: Message) => {
   await connection.manager.delete(Queue, { guild: message.guild });
 
   sendSuccessMessage(message, 'Queue has been cleared.');
-
-  return true;
 };
 
 export default clear;

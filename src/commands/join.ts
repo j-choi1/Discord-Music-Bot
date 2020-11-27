@@ -16,7 +16,7 @@ const join = async (message: Message) => {
   }
 
   await message.member!.voice.channel!.join();
-
+  
   return true;
 };
 

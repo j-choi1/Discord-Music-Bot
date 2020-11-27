@@ -1,5 +1,5 @@
 import { Message } from 'discord.js';
-import { dispatchers } from '../connections/database';
+import { guilds } from '../connections/database';
 
 export const numArguments = (message: Message) => {
   return message.content.trim().split(' ').length - 1;
@@ -72,7 +72,18 @@ export const isInSameVoiceAsMember = (message: Message) => {
 export const isBotPlaying = (message: Message) => {
   return (
     isBotInVoice(message) &&
-    dispatchers.hasOwnProperty(message.guild!.id) &&
-    !dispatchers[message.guild!.id].destroyed
+    guilds.hasOwnProperty(message.guild!.id) &&
+    !guilds[message.guild!.id].dispatcher?.destroyed
   );
+};
+
+export const endBroadcast = (message: Message) => {
+  const dispatcher = guilds[message.guild!.id].dispatcher;
+
+  if (dispatcher) {
+    dispatcher.destroy();
+  }
+
+  delete guilds[message.guild!.id].dispatcher;
+  delete guilds[message.guild!.id].current;
 };

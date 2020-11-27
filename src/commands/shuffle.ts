@@ -7,8 +7,6 @@ const shuffle = async (message: Message) => {
   await connection.getCustomRepository(QueueRepository).shuffle(message.guild!);
 
   sendSuccessMessage(message, 'Queue has been shuffled.');
-
-  return true;
 };
 
 export default shuffle;
