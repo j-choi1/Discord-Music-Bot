@@ -3,6 +3,7 @@ dotenv.config();
 
 import 'reflect-metadata';
 import client from './connections/discord';
+import logger from './utils/logger';
 import { Message } from 'discord.js';
 import { getCommand, loadGuildIfNotExists } from './utils/common';
 
@@ -21,6 +22,14 @@ import loop from './commands/loop';
 
 client.on('message', async (message: Message) => {
   if (message.content.startsWith(process.env.PREFIX!)) {
+    logger.info('Command detected.', {
+      command: message.content,
+      guildId: message.guild!.id,
+      guildName: message.guild!.name,
+      senderId: message.author.id,
+      senderUsername: message.author.username
+    });
+
     loadGuildIfNotExists(message);
 
     switch (getCommand(message)) {
